@@ -17,13 +17,28 @@ startBtn.addEventListener("click" , () => {
     if (paused) {
         paused = false;
         startTime = Date.now() - elapsedTime;
-        intervalId = setInterval(update ,75);
+        intervalId = setInterval(update ,1000);
     }
     
     
 });
-pauseBtn.addEventListener("click" ,);
-resetBtn.addEventListener("click" ,);
+pauseBtn.addEventListener("click" , () => {
+    if(!paused){
+        paused = true;
+        clearInterval(intervalId);
+        displayTime.textContent = `${hrs}: ${mins}: ${secs}`;
+    }
+});
+resetBtn.addEventListener("click" , () => {
+    hrs = "0"+ 0;
+    mins =  "0"+ 0;
+    secs =  "0"+ 0;
+    startTime = 0;
+    elapsedTime = 0;
+    currentTime = 0;
+    clearInterval(intervalId);
+    displayTime.textContent = `${hrs}: ${mins}: ${secs}`;
+});
 
 
 function update() {
@@ -31,5 +46,13 @@ function update() {
    hrs = Math.floor((elapsedTime / (1000 * 60 * 60)) % 60);
    mins = Math.floor((elapsedTime / (1000 * 60)) % 60);
    secs = Math.floor((elapsedTime / 1000) % 60);
-   displayTime.innerHTML = `${hrs}: ${mins}: ${secs}`;
+   
+   hrs = pad(hrs);
+   mins = pad(mins);
+   secs = pad(secs);
+
+   displayTime.textContent = `${hrs}: ${mins}: ${secs}`;
+   function pad(unit) {
+      return ("0"+ unit).length > 2 ? unit : "0" + unit;
+   }
 }
